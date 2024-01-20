@@ -1,0 +1,19 @@
+{
+  "name": "winter_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./routes/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "express app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "express": "^4.18.2",
+    "generate": "^0.10.0",
+    "prisma": "^5.8.1"
+  }
+}

@@ -1,0 +1,34 @@
+<!-- views/instructors.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructors List</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <h1>Instructors List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Introduction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% instructors.forEach(instructor => { %>
+                <tr>
+                    <td><%= instructor.instructor_id %></td>
+                    <td><%= instructor.instructor_name %></td>
+                    <td><%= instructor.instructor_email %></td>
+                    <td><%= instructor.instructor_introduction %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

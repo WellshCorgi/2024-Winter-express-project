@@ -3,14 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
-const indexRouter = require('./routes/index');
-const studentsRouter = require('./routes/students');
-const instructorsRouter = require('./routes/instructors');
-const coursesRouter = require('./routes/courses');
-const enrollmentsRouter = require('./routes/enrollments');
-
 const { Prisma, PrismaClient } = require('@prisma/client');
+
+const indexRouter = require('./routes/indexRoutes');
+const studentsRouter = require('./routes/studentRoutes');
+const instructorsRouter = require('./routes/instructorRoutes');
+const coursesRouter = require('./routes/courseRoutes');
+const enrollmentsRouter = require('./routes/enrollmentRoutes');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -32,8 +31,8 @@ app.use('/courses', coursesRouter);
 app.use('/enrollments', enrollmentsRouter);
 
 // main page 구현
-app.get('/', (req,res) => {
-  res.render('index',{message: 'Welcom to Boflearn Main Page!'});
+app.get('/', (req, res) => {
+  res.render('index', { message: 'Welcome to Boflearn Main Page!' });
 });
 
 // catch 404 and forward to error handler

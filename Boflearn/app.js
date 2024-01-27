@@ -1,54 +1,43 @@
-const createError = require('http-errors');
+// app.js
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const { Prisma, PrismaClient } = require('@prisma/client');
-
-const indexRouter = require('./routes/indexRoutes');
-const studentsRouter = require('./routes/studentRoutes');
-const instructorsRouter = require('./routes/instructorRoutes');
-const coursesRouter = require('./routes/courseRoutes');
-const enrollmentsRouter = require('./routes/enrollmentRoutes');
+const bodyParser = require('body-parser');
+const ejs = require('ejs');
+const cookieParser = require('cookie-parser'); // 쿠키 파서 추가
+const userRouter = require('./routes/userRouter');
+const authRouter = require('./routes/authRouter');
 
 const app = express();
-const prisma = new PrismaClient();
+const PORT = process.env.PORT || 3000;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
+// Set up EJS as the view engine
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(cookieParser()); 
 
-app.use('/', indexRouter);
-app.use('/students', studentsRouter);
-app.use('/instructors', instructorsRouter);
-app.use('/courses', coursesRouter);
-app.use('/enrollments', enrollmentsRouter);
+//로그인 여부 확인
+app.use((req, res, next) => {
+  res.locals.loggedIn = !!req.cookies.jwt; 
+  next();
+});
 
-// main page 구현
 app.get('/', (req, res) => {
-  res.render('index', { message: 'Welcome to Boflearn Main Page!' });
+  res.render('index');
 });
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.get('/register', (req, res) => {
+  res.render('register');
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.get('/login', (req, res) => {
+  res.render('login');
 });
 
-module.exports = app;
+app.use('/user', userRouter);
+app.use('/auth', authRouter);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

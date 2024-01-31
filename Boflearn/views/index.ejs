@@ -17,6 +17,17 @@
         <form action="/auth/logout" method="post">
             <button type="submit">Logout</button>
         </form>
+
+        <form action="/user/delete/<%= userId %>" method="post">
+            <button type="submit">계정 삭제</button>
+        </form>
+
+        <% if (userRole === 'INSTRUCTOR') { %>
+            <a href="/course/create">Create Course</a>
+        <% } %>
+  
+
+
     <% } else { %>
         <p>Welcome, please login or register!</p>
         <a href="/login">Login</a> | <a href="/register">Register</a>

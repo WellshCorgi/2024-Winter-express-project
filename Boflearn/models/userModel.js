@@ -5,10 +5,9 @@ const prisma = new PrismaClient();
 
 class UserModel {
   static async createUser(email, password, name, role) {
-    console.log(password);
     try {
       // 비밀번호 해싱
-      const hashedPassword = await bcrypt.hash(password, 3);
+      const hashedPassword = await bcrypt.hash(password, 8);
 
       return await prisma.user.create({
         data: {
@@ -31,6 +30,21 @@ class UserModel {
       },
     });
   }
+
+  static async deleteUserById(userId) {
+    try {
+      // 사용자 탈퇴 기능 db 삭제
+      return await prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
 }
 
 module.exports = UserModel;

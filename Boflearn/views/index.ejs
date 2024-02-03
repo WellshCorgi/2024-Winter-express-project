@@ -24,10 +24,9 @@
 
         <% if (userRole === 'INSTRUCTOR') { %>
             <a href="/course/create">Create Course</a>
+        <% } else if (userRole === 'STUDENT') { %>
+            <a href="/course/all">View All Courses</a>
         <% } %>
-  
-
-
     <% } else { %>
         <p>Welcome, please login or register!</p>
         <a href="/login">Login</a> | <a href="/register">Register</a>

@@ -16,7 +16,12 @@ class CourseModel {
   }
 
   static async getAllCourses() {
-    return prisma.course.findMany();
+    return prisma.course.findMany({
+      include: {
+        instructor: true
+      },
+    });
+
   }
 }
 

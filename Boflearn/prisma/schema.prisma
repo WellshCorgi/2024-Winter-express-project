@@ -41,6 +41,7 @@ userId    Int
 course    Course  @relation(fields: [courseId], references: [id])
 user      User    @relation(fields: [userId], references: [id])
 createdAt DateTime @default(now())
+@@unique([courseId, userId])
 }
 
 enum UserRole {

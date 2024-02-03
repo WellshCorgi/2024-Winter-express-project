@@ -32,11 +32,9 @@ class AuthController {
         req.session.userId = user.id;
         req.session.userRole = user.role;
       }
-      console.log(req.session.userId)
       res.redirect('/');
       //res.render('index', { loggedIn: true, userId:user.id });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
     

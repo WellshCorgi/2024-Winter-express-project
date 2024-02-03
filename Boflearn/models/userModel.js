@@ -18,7 +18,6 @@ class UserModel {
         },
       });
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
@@ -26,7 +25,7 @@ class UserModel {
   static async getUserByEmail(email) {
     return await prisma.user.findUnique({
       where: {
-        email,
+        email: email,
       },
     });
   }
@@ -40,7 +39,6 @@ class UserModel {
         },
       });
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }

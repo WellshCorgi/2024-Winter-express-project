@@ -1,0 +1,64 @@
+<!-- views/allCourses.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses</title>
+</head>
+
+<body>
+    <h1>All Courses</h1>
+
+    <% if (loggedIn) { %>
+        <p>Welcome, you are logged in!</p>
+        <form action="/auth/logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+        <form action="/user/delete/<%= userId %>" method="post">
+            <button type="submit">Delete Account</button>
+        </form>
+
+        <% if (courses.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Instructor</th>
+                        <th>Enroll</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% courses.forEach(course => { %>
+                        <tr>
+                            <td><%= course.title %></td>
+                            <td><%= course.description %></td>
+                            <td><%= course.price %></td>
+                            <td><%= course.instructor.name %></td>
+                            <td>
+                                <% if (userRole === 'STUDENT') { %>
+                                    <form action="/course/enroll/<%= course.id %>" method="post">
+                                        <button type="submit">Enroll</button>
+                                    </form>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No courses available.</p>
+        <% } %>
+
+    <% } else { %>
+        <p>Welcome, please login or register!</p>
+        <a href="/login">Login</a> | <a href="/register">Register</a>
+    <% } %>
+</body>
+
+</html>

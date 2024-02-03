@@ -3,18 +3,32 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
-const cookieParser = require('cookie-parser'); // 쿠키 파서 추가
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRouter');
 const authRouter = require('./routes/authRouter');
 const courseRouter = require('./routes/courseRouter');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Set up EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Your API Documentation',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./routes/*.js'], 
+};
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(cookieParser()); 
@@ -59,6 +73,4 @@ app.get('/course/create', (req, res) => {
   res.render('createCourse', { loggedIn: res.locals.loggedIn, userRole: res.locals.userRole, userId: res.locals.userId });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
